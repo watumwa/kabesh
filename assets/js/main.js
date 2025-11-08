@@ -371,6 +371,18 @@
     reveal();
   }
 
+  // Header shrink on scroll (adds .is-scrolled to .site-header)
+  function initHeaderScroll() {
+    const headerEl = header;
+    if (!headerEl) return;
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop || 0;
+      headerEl.classList.toggle('is-scrolled', y > 8);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   // Hero background rotation (crossfade) - reads images from data-hero-images on .hero
   function initHeroBackground() {
     const hero = qs('.hero');
@@ -447,6 +459,7 @@
     initLightbox();
     initHeroBackground();
     initToTop();
+    initHeaderScroll();
     initYear();
     handleInitialHash();
   }
