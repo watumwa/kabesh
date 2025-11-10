@@ -395,8 +395,8 @@
       .map(s => s.trim())
       .filter(Boolean);
 
-    // Always ensure there is at least one reliable fallback so the hero is never blank
-    let images = raw.length ? ['assets/img/hero/hero-1.svg', ...raw] : ['assets/img/hero/hero-1.svg'];
+    // Use provided list if available; otherwise fall back to a default local image
+    let images = raw.length ? raw : ['assets/img/hero/hero-1.svg'];
 
     // Preload (non-blocking)
     images.forEach(src => { const i = new Image(); i.src = src; });
