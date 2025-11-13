@@ -90,6 +90,23 @@ button{ font:inherit; }
 .brand__name{
   font-size:.95rem;
 }
+/* Logo image sizing and behavior */
+.brand__logo-img{
+  display:block;
+  height:clamp(12px, 5vw, 36px);
+  width:auto;
+  object-fit:contain;
+}
+.site-header.is-scrolled .brand__logo-img{
+  height:clamp(24px, 4vw, 32px);
+}
+.footer__logo{
+  display:block;
+  height:42px;
+  width:auto;
+  margin:0 0 8px;
+  object-fit:contain;
+}
 
 .nav{ display:flex; align-items:center; gap:16px; }
 .nav__list{
@@ -272,6 +289,42 @@ section{ padding:64px 0; }
 }
 .service p{ color:#2a3a55; }
 
+/* Services media visuals (adds images to service cards) */
+.service{
+  display:flex;
+  flex-direction:column;
+}
+.service__media{
+  position:relative;
+  display:block;
+  height:160px;
+  margin:-22px -20px 12px;
+  border-radius:14px 14px 0 0;
+  overflow:hidden;
+  background:#dfe7f2;
+}
+@supports (aspect-ratio: 16 / 10) {
+  .service__media{ height:auto; aspect-ratio:16/10; }
+}
+.service__media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .5s ease;
+}
+.service:hover .service__media img{ transform:scale(1.06); }
+.service__media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0), rgba(13,59,102,.15));
+  opacity:.8;
+  pointer-events:none;
+  transition:opacity .3s ease;
+}
+.service:hover .service__media::after{ opacity:1; }
+.service .btn{ margin-top:8px; }
 /* Projects */
 .projects{ background:#fff; }
 .featured{
@@ -534,3 +587,76 @@ section{ padding:64px 0; }
 }
 .fab--whatsapp:hover,
 .fab--call:hover{ animation: fab-pulse 1s ease-out; }
+/* === Logo size refinement (overrides) === */
+.brand__logo-img{
+  display:block;
+  height:clamp(18px, 2.6vw, 26px); /* smaller on all screens */
+  width:auto;
+  max-width:160px;                /* prevent very wide logos */
+  object-fit:contain;
+}
+.site-header.is-scrolled .brand__logo-img{
+  height:clamp(16px, 2.2vw, 22px); /* even smaller when header shrinks */
+}
+/* Slightly reduce footer logo too */
+.footer__logo{
+  height:34px;
+}
+/* Tighter brand spacing so logo + name feel balanced */
+.brand{ gap:.5rem; }
+
+/* Ensure comfortable sizing on very small screens */
+@media (max-width: 760px){
+  .brand__logo-img{ height:22px; }
+  .site-header.is-scrolled .brand__logo-img{ height:20px; }
+}
+/* === Logo size hard-cap (final small) === */
+.brand__logo-img{
+  height:14px;
+  max-width:110px;
+}
+.site-header.is-scrolled .brand__logo-img{
+  height:12px;
+}
+.footer__logo{
+  height:28px;
+}
+@media (max-width: 760px){
+  .brand__logo-img{ height:16px; }
+  .site-header.is-scrolled .brand__logo-img{ height:14px; }
+  .footer__logo{ height:26px; }
+}
+/* === Transparent logo contrast pods (for no-background logos) === */
+.site-header .brand__logo-img{
+  background: rgba(255,255,255,.10);
+  padding: 2px 6px;               /* small cushion around logo */
+  border-radius: 8px;              /* soft corners */
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 6px 14px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.20);
+  backdrop-filter: saturate(140%) blur(2px); /* subtle glass for dark header */
+}
+.site-header.is-scrolled .brand__logo-img{
+  padding: 1px 5px;
+  border-radius: 7px;
+}
+
+.footer__logo{
+  background: rgba(255,255,255,.08);
+  padding: 4px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 8px 22px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.18);
+}
+/* === Rollback: ensure no-logo layout and restore spacing === */
+.site-header .brand__logo-img,
+.footer__logo{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:none !important;
+  box-shadow:none !important;
+}
+.brand{ gap:.65rem !important; } /* restore original header brand spacing */
